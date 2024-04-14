@@ -2,17 +2,147 @@
   <script src='//unpkg.com/timelines-chart'></script>
   <!--<script src='../../dist/timelines-chart.js'></script>-->
 
-  <script src='../random-data.js'></script>
+  <script src='../get_trace_json.js'></script>
 </head>
 
 <body>
   <script>
-    const myData = getRandomData(true);
+    const input = [
+    { "time":        396, "id":    1, "type": "Start" },
+{ "time":        426, "id":    2, "type": "Start" },
+{ "time":        433, "id":    4, "type": "Start" },
+{ "time":        445, "id":    1, "type": "Park" },
+{ "time":        455, "id":    4, "type": "Park" },
+{ "time":        460, "id":    7, "type": "Start" },
+{ "time":        426, "id":    3, "type": "Start" },
+{ "time":        447, "id":    2, "type": "Park" },
+{ "time":        485, "id":    3, "type": "Park" },
+{ "time":        432, "id":    5, "type": "Start" },
+{ "time":        507, "id":    5, "type": "Park" },
+{ "time":        464, "id":    8, "type": "Start" },
+{ "time":        480, "id":    7, "type": "Park" },
+{ "time":        533, "id":    8, "type": "Park" },
+{ "time":        414, "id":    0, "type": "Start" },
+{ "time":        563, "id":    0, "type": "Park" },
+{ "time":        456, "id":    6, "type": "Start" },
+{ "time":        567, "id":    6, "type": "Park" },
+{ "time":        619, "id":    9, "type": "Start" },
+{ "time":        632, "id":   12, "type": "Start" },
+{ "time":        642, "id":    9, "type": "Park" },
+{ "time":        654, "id":   12, "type": "Park" },
+{ "time":        626, "id":   13, "type": "Start" },
+{ "time":        625, "id":   11, "type": "Start" },
+{ "time":        674, "id":   13, "type": "Park" },
+{ "time":        691, "id":   11, "type": "Park" },
+{ "time":        626, "id":   10, "type": "Start" },
+{ "time":        732, "id":   14, "type": "Start" },
+{ "time":        734, "id":   10, "type": "Park" },
+{ "time":        746, "id":   14, "type": "Park" },
+{ "time":        767, "id":   15, "type": "Start" },
+{ "time":        790, "id":   15, "type": "RunTask" },
+{ "time":        819, "id":   15, "type": "RunTask" },
+{ "time":        827, "id":   15, "type": "RunTask" },
+{ "time":        834, "id":   15, "type": "RunTask" },
+{ "time":        835, "id":   14, "type": "RunTask" },
+{ "time":        840, "id":   15, "type": "RunTask" },
+{ "time":        856, "id":   10, "type": "RunTask" },
+{ "time":        862, "id":   14, "type": "RunTask" },
+{ "time":        874, "id":   10, "type": "RunTask" },
+{ "time":        878, "id":   11, "type": "Park" },
+{ "time":        863, "id":   15, "type": "RunTask" },
+{ "time":        898, "id":   10, "type": "Park" },
+{ "time":        911, "id":   15, "type": "Park" },
+{ "time":        882, "id":   14, "type": "Park" },
+    ];
+
+    const data = processEvents(input)
+
+    // const expectedInput = [
+    //   {
+    //     typ: "Start",
+    //     worker_id: 3,
+    //     time: 332, // in nano seconds
+    //     data: {
+    //       task_id: 1, // if start.
+    //     }
+    //   },
+    //   {
+    //     typ: "Park",
+    //     worker_id: 1,
+    //     time: 32, // in nano seconds
+    //     data: {}
+    //   },
+    // ]
+    // const data = [
+    //   {
+    //     group: 'Worker 1',
+    //     data: [
+    //       {
+    //         label: 'Label 1',
+    //         data: [
+    //           {
+    //             timeRange: [0,200],
+    //             val: "task1"
+    //           },
+    //           {
+    //             timeRange: [200, 220],
+    //             val: "task2"
+    //           },
+    //           {
+    //             timeRange: [220, 300],
+    //             val: "Park"
+    //           },
+    //           {
+    //             timeRange: [300, 300],
+    //             val: "task2"
+    //           },
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     group: 'Worker 2',
+    //     data: [
+    //       {
+    //         label: 'Label 1',
+    //         data: [
+    //           {
+    //             timeRange: [0,300],
+    //             val: "task1"
+    //           },
+    //         ]
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     group: 'Worker 3',
+    //     data: [
+    //       {
+    //         label: 'Label 1',
+    //         data: [
+    //           {
+    //             timeRange: [0,20],
+    //             val: "task3"
+    //           },
+    //           {
+    //             timeRange: [20, 49],
+    //             val: "task4"
+    //           },
+    //           {
+    //             timeRange: [49, 300],
+    //             val: "Park"
+    //           },
+    //         ]
+    //       }
+    //     ]
+    //   },
+    // ]
 
     TimelinesChart()(document.body)
       .zScaleLabel('My Scale Units')
       .zQualitative(true)
-      .dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
-      .data(myData);
+      // .dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
+      // .data(myData);
+      .data(data);
   </script>
 </body>
