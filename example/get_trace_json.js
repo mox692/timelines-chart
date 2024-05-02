@@ -14,6 +14,9 @@ function processEvents(events) {
     // イベントを時間順にソート
     events.sort((a, b) => a.time - b.time);
 
+    console.log("=================");
+    console.log(events);
+    console.log("=================");
     // データ配列を生成
     const dataEntries = events.map((event, idx) => {
       const nextEvent = events[idx + 1];

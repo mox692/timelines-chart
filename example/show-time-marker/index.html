@@ -7,66 +7,33 @@
 
 <body>
   <script>
-    const input = [
-      { time: 530, id: 1, type: "Start" },
-      { time: 544, id: 1, type: "Park" },
-      { time: 1063, id: 1, type: "Shutdown" },
-      { time: 364, id: 0, type: "Start" },
-      { time: 400, id: 0, type: "Park" },
-      { time: 1081, id: 0, type: "Shutdown" },
-      { time: 544, id: 3, type: "Start" },
-      { time: 561, id: 3, type: "Park" },
-      { time: 1058, id: 3, type: "Shutdown" },
-      { time: 561, id: 6, type: "Start" },
-      { time: 577, id: 6, type: "Park" },
-      { time: 1050, id: 6, type: "Shutdown" },
-      { time: 533, id: 2, type: "Start" },
-      { time: 548, id: 2, type: "Park" },
-      { time: 1058, id: 2, type: "Shutdown" },
-      { time: 543, id: 4, type: "Start" },
-      { time: 552, id: 4, type: "Park" },
-      { time: 1058, id: 4, type: "Shutdown" },
-      { time: 768, id: 10, type: "Start" },
-      { time: 778, id: 10, type: "Park" },
-      { time: 950, id: 10, type: "Park" },
-      { time: 1038, id: 10, type: "Shutdown" },
-      { time: 563, id: 7, type: "Start" },
-      { time: 573, id: 7, type: "Park" },
-      { time: 1059, id: 7, type: "Shutdown" },
-      { time: 542, id: 5, type: "Start" },
-      { time: 551, id: 5, type: "Park" },
-      { time: 1055, id: 5, type: "Shutdown" },
-      { time: 687, id: 8, type: "Start" },
-      { time: 706, id: 8, type: "Park" },
-      { time: 1052, id: 8, type: "Shutdown" },
-      { time: 707, id: 9, type: "Start" },
-      { time: 723, id: 9, type: "Park" },
-      { time: 1039, id: 9, type: "Shutdown" },
-      { time: 773, id: 15, type: "Start" },
-      { time: 801, id: 15, type: "RunTask task: 18" },
-      { time: 37357, id: 15, type: "Park" },
-      { time: 37371, id: 15, type: "Shutdown" },
-      { time: 768, id: 13, type: "Start" },
-      { time: 781, id: 13, type: "Park" },
-      { time: 870, id: 13, type: "RunTask task: 20" },
-      { time: 37645, id: 13, type: "Park" },
-      { time: 37656, id: 13, type: "Shutdown" },
-      { time: 766, id: 11, type: "Start" },
-      { time: 781, id: 11, type: "Park" },
-      { time: 926, id: 11, type: "RunTask task: 22" },
-      { time: 37813, id: 11, type: "Park" },
-      { time: 37825, id: 11, type: "Shutdown" },
-      { time: 769, id: 12, type: "Start" },
-      { time: 784, id: 12, type: "Park" },
-      { time: 906, id: 12, type: "RunTask task: 21" },
-      { time: 38052, id: 12, type: "Park" },
-      { time: 38064, id: 12, type: "Shutdown" },
-      { time: 767, id: 14, type: "Start" },
-      { time: 780, id: 14, type: "Park" },
-      { time: 842, id: 14, type: "RunTask task: 19" },
-      { time: 38240, id: 14, type: "Park" },
-      { time: 38252, id: 14, type: "Shutdown" },
-    ];
+    let input = [];
+
+    input = input.map((row) => {
+      return {
+        time: extractMicrosecondsTenUnit(row.timestamp),
+        id: row.fields.worker_id,
+        type: row.fields.typ,
+      };
+    });
+
+    function extractMicrosecondsTenUnit(isoString) {
+      const parts = isoString.match(/(\d{2})\.(\d{6})\d*Z$/);
+      if (!parts) {
+        throw new Error(
+          "No appropriate seconds and microseconds format found in the input string"
+        );
+      }
+
+      // 秒とマイクロ秒部分の取得
+      const seconds = parts[1];
+      let microseconds = parts[2].slice(0, -1); // 最後の1桁を切り捨てる
+
+      // 10マイクロ秒単位までの値を生成
+      const result = `${seconds}.${microseconds}`;
+
+      return Number(result) * 100000;
+    }
 
     const data = processEvents(input);
 
